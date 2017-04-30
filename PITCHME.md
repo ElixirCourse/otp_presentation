@@ -18,10 +18,10 @@
 ![Image-Absolute](assets/what_is_otp.jpg)
 
 #HSLIDE
-* OTP е платформата с която се разпространява Erlang.
+* OTP е платформата, с която се разпространява Erlang.
 * Версиите на Erlang са версии на OTP.  <!-- .element: class="fragment" -->
-* OTP е и стандартната библиотека на Erlang. <!-- .element: class="fragment" -->
-* OTP е Open Telecom Platform, но с времето OTP се е превърнало от платформа за писане на телекомуникационни програми в нещо повече. <!-- .element: class="fragment" -->
+* OTP е стандартната библиотека на Erlang. <!-- .element: class="fragment" -->
+* OTP е Open Telecom Platform, но с времето OTP се е превърнала от платформа за писане на телекомуникационни програми в нещо повече. <!-- .element: class="fragment" -->
 
 #HSLIDE
 ![Image-Absolute](assets/erlang.jpg)
@@ -87,7 +87,8 @@ end
 ### Поведението GenServer : Callback функции
 
 #HSLIDE
-#### init/1
+#### init
+![Image-Absolute](assets/init.jpg)
 
 #HSLIDE
 ```elixir
@@ -127,7 +128,8 @@ end
 * Някой от {:ok, state} вариантите, GenServer.start_link/3 ще върне {:ok, pid}. <!-- .element: class="fragment" -->
 
 #HSLIDE
-#### handle_call/3
+#### handle_call
+![Image-Absolute](assets/handle_call.jpg)
 
 #HSLIDE
 ```elixir
@@ -138,9 +140,11 @@ end
   {:noreply, new_state} |
   {:noreply, new_state, timeout | :hibernate} |
   {:stop, reason, reply, new_state} |
-  {:stop, reason, new_state} when reply: term, new_state: term, reason: term
+  {:stop, reason, new_state}
+  when reply: term, new_state: term, reason: term
 
-@spec handle_call(request :: term, from, state :: term) :: handle_call_result
+@spec handle_call(request :: term, from, state :: term) ::
+  handle_call_result
 ```
 
 #HSLIDE
@@ -174,7 +178,8 @@ GenServer.call/3
 * Ще се извика terminate(reason, state) ако е дефинирана и процесът ще прекрати изпълнение с причина, дадената причина.
 
 #HSLIDE
-#### handle_cast/2
+#### handle_cast
+![Image-Absolute](assets/handle_cast.png)
 
 #HSLIDE
 ```elixir
@@ -193,7 +198,8 @@ GenServer.call/3
 * handle_cast най-често се използват за промяна на състоянието.
 
 #HSLIDE
-#### handle_info/2
+#### handle_info
+![Image-Absolute](assets/handle_all.jpg)
 
 #HSLIDE
 ```elixir
@@ -208,7 +214,8 @@ GenServer.call/3
 * Приемат и връщат аналогични параметри/резултати на тези на handle_cast/2.
 
 #HSLIDE
-#### terminate/2
+#### terminate
+![Image-Absolute](assets/terminate.png)
 
 #HSLIDE
 ```elixir
@@ -239,9 +246,9 @@ GenServer.call/3
 
 #HSLIDE
 * Важно е програмата да върви.
-* Ако части от нея се сринат, не е проблем - нещо наблюдава тези части.
-* Нещо ще се погрижи те да бъдат възстановени.
-* Това нещо е Supervisor.
+* Ако части от нея се сринат, не е проблем - нещо наблюдава тези части. <!-- .element: class="fragment" -->
+* Нещо ще се погрижи те да бъдат възстановени. <!-- .element: class="fragment" -->
+* Това нещо е Supervisor. <!-- .element: class="fragment" -->
 
 #HSLIDE
 * Подобно на GenServer, Supervisor е поведение, за което callback функциите имат имплементации по подразбиране.
@@ -255,23 +262,24 @@ end
 
 #HSLIDE
 В модула Supervisor има код, който може:
-* Да инициализира и стартира Supervisor процес.
-* Да осигури това, че Supervisor процесът прихваща EXIT сигнали.
-* Да стартира определен списък от процеси-деца, зададени на Supervisor-а и да ги link-не към него.
+* Да инициализира и стартира Supervisor процес. <!-- .element: class="fragment" -->
+* Да осигури това, че Supervisor процесът прихваща EXIT сигнали. <!-- .element: class="fragment" -->
+* Да стартира определен списък от процеси-деца, зададени на Supervisor-а и да ги link-не към него. <!-- .element: class="fragment" -->
 
 #HSLIDE
 Поведението Supervisor дава възможност:
-* Ако някой от процесите-деца 'умре' непредвидено, Supervisor-ът ще получи сигнал и ще предприеме конкретно действие, зададено при имплементацията му.
-* Ако Supervisor-ът бъде терминиран, всичките му процеси-деца биват 'убити'.
+* Ако някой от процесите-деца 'умре' непредвидено, Supervisor-ът ще получи сигнал и ще предприеме конкретно действие, зададено при имплементацията му. <!-- .element: class="fragment" -->
+* Ако Supervisor-ът бъде терминиран, всичките му процеси-деца биват 'убити'. <!-- .element: class="fragment" -->
 
 #HSLIDE
 ### Пример : Supervisor и Blogit - Component Supervisor
 
 #HSLIDE
-<картинка-за-демо>
+![Image-Absolute](assets/component_supervisor.png)
 
 #HSLIDE
 ### Supervisor.Spec.supervise/2 : Стратегии
+![Image-Absolute](assets/strategy.jpg)
 
 #HSLIDE
 1. :one_for_one : Ако наблюдаван процес 'умре', той се рестартира. Другите не се влияят. Тази стратегия е добра за процеси които нямат връзки и комуникация помежду си, които могат да загубят състоянието си без това да повлияе на другите процеси-деца на Supervisor-а им.
@@ -295,6 +303,7 @@ end
 
 #HSLIDE
 ### Какво е Supervisor.Spec.spec
+![Image-Absolute](assets/spec.png)
 
 #HSLIDE
 ```elixir
@@ -326,6 +335,7 @@ end
 * Това е стойност която се ползва от Supervisor-ите вътрешно.
 * Рядко ще я използваме за нещо, макар че можем да я подадем като опция на worker/3 с [id: <id>].
 * Може да се ползва за debugging да речем.
+* Ако процесът има име - това е името му.
 
 #HSLIDE
 #### start_fun
@@ -363,8 +373,8 @@ end
 
 #HSLIDE
 * Когато процес получи :shutdown, ако е Genserver, ще му се извика terminate/2 функцията.
-* Изчистването на някакви ресурси може да отнеме време.
-* Ако това време е повече от зададеното в shutdown, Supervisor-ът ще изпрати нов EXIT сигнал с Process.exit(child_pid, :kill).
+* Изчистването на някакви ресурси може да отнеме време. <!-- .element: class="fragment" -->
+* Ако това време е повече от зададеното в shutdown, Supervisor-ът ще изпрати нов EXIT сигнал с Process.exit(child_pid, :kill). <!-- .element: class="fragment" -->
 
 #HSLIDE
 * Ако зададем стойност :brutal_kill за shutdown, Supervisor-ът винаги ще терминира даденият процес направо с Process.exit(child_pid, :kill).
@@ -405,6 +415,8 @@ end
 #HSLIDE
 ### Функциите на Supervisor
 
+![Image-Absolute](assets/function.jpg)
+
 #HSLIDE
 #### Supervisor.start_child/2
 
@@ -420,10 +432,10 @@ Blogit.Components.Supervisor |> Supervisor.count_children
 ```
 
 #HSLIDE
-* active - това е броят на всички активни процеси-деца, които се управляват от подадения Supervisor.
-* specs - това е броят на всички процеси-деца, няма значение дали са 'живи' или 'мъртви'.
-* supervisors - броят на всички активни процеси-деца, които се управляват от подадения Supervisor и са Supervisor-и на свой ред. Няма значение дали са активни или не.
-* workers - това е броят на всички активни процеси-деца, които се управляват от подадения Supervisor и не са Supervisor-и. Няма значение дали са активни или не.
+* active - това е броят на всички активни процеси-деца, които се управляват от подадения Supervisor. <!-- .element: class="fragment" -->
+* specs - това е броят на всички процеси-деца, няма значение дали са 'живи' или 'мъртви'. <!-- .element: class="fragment" -->
+* supervisors - броят на всички активни процеси-деца, които се управляват от подадения Supervisor и са Supervisor-и на свой ред. Няма значение дали са активни или не. <!-- .element: class="fragment" -->
+* workers - това е броят на всички активни процеси-деца, които се управляват от подадения Supervisor и не са Supervisor-и. Няма значение дали са активни или не. <!-- .element: class="fragment" -->
 
 #HSLIDE
 #### Supervisor.which_children/1
@@ -455,32 +467,33 @@ Blogit.Components.Supervisor |> Supervisor.count_children
 ### Дърво от Supervisor-и
 
 #HSLIDE
-<картинка-тук-пример>
+![Image-Absolute](assets/tree.png)
 
 #HSLIDE
 ## Application
+![Image-Absolute](assets/application-controller.png)
 
 #HSLIDE
 ### Какво е Application?
 
-* Application е компонент в Elixir/Erlang, който може да бъде спиран и стартиран като едно цяло.
-* Може да бъде използван от други Apllication-и.
-* Един Application се грижи за едно supervision дърво и средата в която то върви.
+* Application е компонент в Elixir/Erlang, който може да бъде спиран и стартиран като едно цяло. <!-- .element: class="fragment" -->
+* Може да бъде използван от други Apllication-и. <!-- .element: class="fragment" -->
+* Един Application се грижи за едно supervision дърво и средата в която то върви. <!-- .element: class="fragment" -->
 
 #HSLIDE
 * Винаги, когато виртуалната машина стартира, специален процес, наречен 'application_controller' се стартира с нея.
-* Този процес стои над всички Application-и, които вървят в тази виртуална машина.
-* Mожем да го наречем Supervisor на Application-ите.
+* Този процес стои над всички Application-и, които вървят в тази виртуална машина. <!-- .element: class="fragment" -->
+* Mожем да го наречем Supervisor на Application-ите. <!-- .element: class="fragment" -->
 
 #HSLIDE
 * Можем да приемем application_controller процеса за коренът на дървото от процеси в един BEAM node.
-* Под този 'корен' стоят различните Application-и, които са абстракция, обвиваща supervision дърво, която може да се стартира и спира като едно цяло.
-* Те са като мега-процеси, управлявани от application_controller-a.
-* Отвън те изглеждат като един процес за който имаме функции start и stop.
+* Под този 'корен' стоят различните Application-и, които са абстракция, обвиваща supervision дърво, която може да се стартира и спира като едно цяло. <!-- .element: class="fragment" -->
+* Те са като мега-процеси, управлявани от application_controller-a. <!-- .element: class="fragment" -->
+* Отвън те изглеждат като един процес за който имаме функции start и stop. <!-- .element: class="fragment" -->
 
 #HSLIDE
 * Когато се стартира един Application се създават два специални процеса, които заедно са наречени 'application master'.
-* Тези два процеса създават Application-а и стоят между application_controller процеса и Supervisor-а служещ за корен на supervision дървото.
+* Тези два процеса създават Application-а и стоят между application_controller процеса и Supervisor-а служещ за корен на supervision дървото. <!-- .element: class="fragment" -->
 
 #HSLIDE
 ### Пример : Blogit
