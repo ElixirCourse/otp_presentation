@@ -282,27 +282,27 @@ end
 ![Image-Absolute](assets/strategy.jpg)
 
 #HSLIDE
-1. :one_for_one
+:one_for_one
 
 * Ако наблюдаван процес 'умре', той се рестартира.
 * Другите не се влияят. 
 * Тази стратегия е добра за процеси които нямат връзки и комуникация помежду си, които могат да загубят състоянието си без това да повлияе на другите процеси-деца на Supervisor-а им.
 
 #HSLIDE
-2. :one_for_all
+:one_for_all
 
 * Ако наблюдаван процес 'умре', всички наблюдавани процеси биват 'убити' и след това всички се стартират наново.
 * Обикновено тази стратегия се използва за процеси, чиито състояния зависят доста едно от друго и ако само един от тях бъде рестартиран ще е се наруши общата логина на програмата.
 
 #HSLIDE
-3. :rest_for_one
+:rest_for_one
 
 * Ако наблюдаван процес 'умре', всички наблюдавани процеси стартирани СЛЕД недго също 'умират'.
 * Всички тези процеси, включително процесът-причина се рестартират по първоначалния си стартов ред.
 * Тази стратегия е подходяща за ситуация като : процес 'A' няма зависимости, но процес 'Б' зависи от 'А', а има и процес 'В', който зависи както от 'Б', така и транзитивно от 'А'.
 
 #HSLIDE
-4. :simple_one_for_one
+:simple_one_for_one
 
 * При тази стратегия даден Supervisor има право само на един тип процеси-деца.
 * Обикновено стартира без процеси-деца, но знае как да си ги произведе.
@@ -364,7 +364,7 @@ end
 * Тази стойност е tupple съдържащ MFA.
 * Използва се за стартиране на процеса-дете. <!-- .element: class="fragment" -->
 * Модулът, който съдържа логиката на процеса се подава като първи аргумент на worker/3. <!-- .element: class="fragment" -->
-* Функцията за стартиране на процеса се подава от опциите на worker/3 чрез [function: <atom-representing-public-function-from-the-module>]. По подразбиране е :start_link. <!-- .element: class="fragment" -->
+* Функцията за стартиране на процеса се подава от опциите на worker/3 чрез [function: atom-representing-public-function-from-the-module]. По подразбиране е :start_link. <!-- .element: class="fragment" -->
 
 #HSLIDE
 * Задължително тази функция трябва да стартира процес и да го свързва със процеса, който я е извикал. <!-- .element: class="fragment" -->
@@ -377,7 +377,7 @@ end
 * Атом, който указва кога и дали 'терминиран' процес-дете ще се рестартира. Възможните стойности са:
 
 #HSLIDE
-1. :permanent
+:permanent
 
 * Процесът винаги се рестартира от Supervisor-а.
 * Това е стойността по подразбиране на restart.
@@ -385,13 +385,13 @@ end
 * Този начин на рестартиране е подходящ за дълго-живеещи процеси, които не трябва да 'умират'.
 
 #HSLIDE
-2. :transient
+:transient
 
 * С тази опция, даденият процес-дете няма да бъде рестартиран ако излезе нормално - с exit(:normal) или просто завърши изпълнение.
 * Ако обаче излезе с друга причина (exit(:reason)), ще бъде рестартиран.
 
 #HSLIDE
-3. :temporary
+:temporary
 
 * Процесът-дете няма да бъде рестартиран ако 'умре'.
 * Няма значение дали е излязъл с грешка или не.
@@ -557,7 +557,7 @@ Blogit.Components.Supervisor |> Supervisor.count_children
 * Вторият са аргументи за програмата, които се задават при конфигурация. <!-- .element: class="fragment" -->
 
 #HSLIDE
-#### stop/1
+#### stop
 
 * Когато Application-а бъде спрян, тази функция се извиква със състоянието върнато от start/2. <!-- .element: class="fragment" -->
 * Използва се за изчистване на ресурси и има имплементация по подразбиране, която просто връща :ok. <!-- .element: class="fragment" -->
@@ -576,7 +576,7 @@ Blogit.Components.Supervisor |> Supervisor.count_children
 #### Application.start
 
 * Стартира Application. <!-- .element: class="fragment" -->
-* За първи аргумент взима атом, идентифициращ `Application`. <!-- .element: class="fragment" -->
+* За първи аргумент взима атом, идентифициращ Application. <!-- .element: class="fragment" -->
 * За втори типа на Application-а. <!-- .element: class="fragment" -->
 
 #HSLIDE
@@ -614,7 +614,7 @@ Blogit.Components.Supervisor |> Supervisor.count_children
 #HSLIDE
 #### Функции за четене и писане на Application environment
 
-* Както казахме Application environment е keyword list, който се конфигурира при дефиниране на Application. <!-- .element: class="fragment" -->
+* Application environment е keyword list, който се конфигурира при дефиниране на Application. <!-- .element: class="fragment" -->
 * Има няколко функции за четене от него. <!-- .element: class="fragment" -->
 
 #HSLIDE
@@ -622,7 +622,7 @@ Blogit.Components.Supervisor |> Supervisor.count_children
 
 Тази функция има две версии. <!-- .element: class="fragment" -->
 * Първата взима само Application и връща цялата му спецификация. <!-- .element: class="fragment" -->
-* Втората Application и ключ в спецификацията, за да върне част от нея. <!-- .element: class="fragment" -->
+* Втората взима Application и ключ в спецификацията, за да върне част от нея. <!-- .element: class="fragment" -->
 
 #HSLIDE
 #### Application.stop
@@ -693,7 +693,7 @@ end
 1. Task.async/1 (има и MFA версия - Task.async/3), която създава задача и я link-ва към текущия процес, като също така добавя монитор.
 
 #HSLIDE
-2. Task.await/2, която взима взима задача и опционално timeout (по подразбиране 5000 или пет секунди) и чака резултат от задачата.
+2. Task.await/2, която взима задача и опционално timeout (по подразбиране 5000 или пет секунди) и чака резултат от задачата.
 
 #HSLIDE
 ### Структурата Task
@@ -701,7 +701,11 @@ end
 #HSLIDE
 ```elixir
 Task.async(fn -> :nothing end)
-# %Task{owner: #PID<0.2724.0>, pid: #PID<0.2727.0>, ref: #Reference<0.0.3.551>}
+# %Task{
+#   owner: #PID<0.2724.0>,
+#   pid: #PID<0.2727.0>,
+#   ref: #Reference<0.0.3.551>
+# }
 ```
 
 #HSLIDE
