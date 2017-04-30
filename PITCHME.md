@@ -44,6 +44,7 @@
 
 #HSLIDE
 ## GenServer
+![Image-Absolute](assets/generic.jpg)
 
 #HSLIDE
 * GenServer представлява процес.
@@ -60,8 +61,8 @@
 
 #HSLIDE
 * С помощта на мета-програмиране GenServer е специален тип поведение.
-* Поведение с функции, които имат имплементации по подразбиране.
-* За да направим от един модул GenServer, използваме "use GenServer".
+* Задава callback функции, които имат имплементации по подразбиране. <!-- .element: class="fragment" -->
+* За да направим от един модул GenServer, използваме "use GenServer". <!-- .element: class="fragment" -->
 
 #HSLIDE
 ```elixir
@@ -73,19 +74,17 @@ end
 #HSLIDE
 По този начин декларираме, че даден модул ще изпълни поведението GenServer.
 Това поведение и логиката около него ни дават следните възможности:
-* Да стартираме процес.
-* Да поддържаме състояние в този процес.
-* Да получаваме request-и и да връщаме отговори.
-* Да спираме процеса.
+* Да стартираме процес. <!-- .element: class="fragment" -->
+* Да поддържаме състояние в този процес. <!-- .element: class="fragment" -->
+* Да получаваме request-и и да връщаме отговори. <!-- .element: class="fragment" -->
+* Да спираме процеса. <!-- .element: class="fragment" -->
 
 #HSLIDE
 ### Пример : GenServer и Blogit - Posts component
+![Image-Absolute](assets/publications.jpg)
 
 #HSLIDE
-<картинка-за-демо>
-
-#HSLIDE
-### Поведението GenServer; Callback функции
+### Поведението GenServer : Callback функции
 
 #HSLIDE
 #### init/1
@@ -151,9 +150,9 @@ end
 
 #HSLIDE
 GenServer.call/3
-* Първият ѝ аргумент е pid или име на GenServer процес.
-* Вторият - съобщението, което трябва да се изпрати.
-* Tретият е timeout в милисекунди.
+* Първият ѝ аргумент е pid или име на GenServer процес. <!-- .element: class="fragment" -->
+* Вторият - съобщението, което трябва да се изпрати. <!-- .element: class="fragment" -->
+* Tретият е timeout в милисекунди. <!-- .element: class="fragment" -->
 
 #HSLIDE
 * Ако върнем с {:reply, <отговор>, <състояние>}, ще върнем отговорът като резултат на GenServer.call\3 и ще продължим със състоянието, което връщаме.
@@ -166,9 +165,9 @@ GenServer.call/3
 
 #HSLIDE
 Има три основни причини да върнем noreply от handle_call:
-1. Защото сме отговорили с GenServer.reply/2 преди да върнем резултат.
-2. Защото ще отговори след като handle_call е свършила изпълнението си.
-3. Защото някой друг процес трябва да отговори.
+1. Защото сме отговорили с GenServer.reply/2 преди да върнем резултат. <!-- .element: class="fragment" -->
+2. Защото ще отговори след като handle_call е свършила изпълнението си. <!-- .element: class="fragment" -->
+3. Защото някой друг процес трябва да отговори. <!-- .element: class="fragment" -->
 
 #HSLIDE
 * Връщаме :stop резултат, когато искаме да прекратим изпълнението на GenServer процеса.
@@ -219,12 +218,13 @@ GenServer.call/3
 
 #HSLIDE
 * Извиква се преди терминиране на GenServer процес.
-* Причината идва от резултат от типа {:stop, ...} върнат от handle_* функциите,
-* Може и да дойде от exit сигнал, ако GenServer процеса е системен процес.
-* Supervisor процеси могат да пращат EXIT съобщения, които да се предадат на тази функция.
+* Причината идва от резултат от типа {:stop, ...} върнат от handle_* функциите, <!-- .element: class="fragment" -->
+* Може и да дойде от exit сигнал, ако GenServer процеса е системен процес. <!-- .element: class="fragment" -->
+* Supervisor процеси могат да пращат EXIT съобщения, които да се предадат на тази функция. <!-- .element: class="fragment" -->
 
 #HSLIDE
 ## Supervisor
+![Image-Absolute](assets/supervisor.jpg)
 
 #HSLIDE
 ### Какво е Supervisor?
