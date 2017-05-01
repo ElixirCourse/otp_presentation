@@ -125,7 +125,7 @@ end
 Ако върнем:
 * :ignore, процесът ще излезе нормално и start_link ще върне :ignore. <!-- .element: class="fragment" -->
 * {:stop, reason}, процесът ще излезе с върнатата причина и start_link/3 ще върне {:error, reason}. <!-- .element: class="fragment" -->
-* Някои от {:ok, state} вариантите, GenServer.start_link/3 ще върне {:ok, pid}. <!-- .element: class="fragment" -->
+* Някой от {:ok, state} вариантите, GenServer.start_link/3 ще върне {:ok, pid}. <!-- .element: class="fragment" -->
 
 #HSLIDE
 #### handle_call
